@@ -29,6 +29,9 @@ import {
   WarningPanel,
 } from '@backstage/core-components';
 import { Project } from '../../api/JenkinsApi';
+import { JENKINS_OVERVIEW_MAIN_BRANCH } from '../../constants';
+import { useEntity } from '@backstage/plugin-catalog-react';
+import { Entity } from '@backstage/catalog-model';
 
 const useStyles = makeStyles({
   externalLinkIcon: {
@@ -99,9 +102,32 @@ export const LatestRunCard = (props: {
   branch: string;
   variant?: InfoCardVariants;
 }) => {
-  const { branch = 'master', variant } = props;
+  let { branch = 'master' } = props;
+  const { variant } = props;
   const [{ projects, loading, error }] = useBuilds({ branch });
-  const latestRun = projects?.[0];
+
+  const { entity } = useEntity<Entity>();
+  branch = String(entity.metadata.annotations?.[JENKINS_OVERVIEW_MAIN_BRANCH]);
+
+  const isMultiBranch = Number(projects?.length) > 1;
+
+  let project = projects?.[0];
+
+  if (isMultiBranch) {
+    project = projects?.find(p => {
+      const branchIndex = Number(
+        p.lastBuild.source?.branchName.split('/').length,
+      );
+      const projectBranch =
+        p.lastBuild.source?.branchName.split('/')[branchIndex - 1];
+      return (
+        projectBranch?.trim().toUpperCase() === branch.trim().toUpperCase()
+      );
+    });
+  }
+
+  const latestRun = project;
+
   return (
     <InfoCard title={`Latest ${branch} build`} variant={variant}>
       {!error ? (

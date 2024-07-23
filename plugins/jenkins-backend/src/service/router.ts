@@ -109,10 +109,7 @@ export async function createRouter(
       });
 
       try {
-        console.log('ESTEVEZ', jenkinsInfo);
-        console.log('ESTEVEZ', branches);
         const projects = await jenkinsApi.getProjects(jenkinsInfo, branches);
-        console.log('ESTEVEZ', projects);
 
         response.json({
           projects: projects,

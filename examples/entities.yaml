@@ -13,7 +13,9 @@ kind: Component
 metadata:
   name: example-website
   annotations:
-    'jenkins.io/job-full-name': TSE/backstage-test-pipeline
+    'jenkins.io/job-full-name': 'TSE/multibranch-pipeline-test'
+    # 'jenkins.io/job-full-name': 'TSE/backstage-test-pipeline'
+    'jenkins.io/job-main-branch': 'test'
 spec:
   type: website
   lifecycle: experimental

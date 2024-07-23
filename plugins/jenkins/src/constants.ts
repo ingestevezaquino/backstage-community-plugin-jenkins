@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 export const JENKINS_ANNOTATION = 'jenkins.io/job-full-name';
+export const JENKINS_OVERVIEW_MAIN_BRANCH = 'jenkins.io/job-main-branch';
 // @deprecated The legacy annotation used for identifying Jenkins jobs, use
 // JENKINS_ANNOTATION instead.
 export const LEGACY_JENKINS_ANNOTATION = 'jenkins.io/github-folder';

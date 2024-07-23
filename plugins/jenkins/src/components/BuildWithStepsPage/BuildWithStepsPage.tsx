@@ -72,7 +72,11 @@ const BuildWithStepsView = () => {
               <TableCell>
                 <Typography noWrap>Message</Typography>
               </TableCell>
-              <TableCell>{value?.source?.displayName}</TableCell>
+              {value?.source?.displayName ? (
+                <TableCell>{value?.source?.displayName}</TableCell>
+              ) : (
+                <TableCell>N/A</TableCell>
+              )}
             </TableRow>
             <TableRow>
               <TableCell>
@@ -92,7 +96,11 @@ const BuildWithStepsView = () => {
               <TableCell>
                 <Typography noWrap>Author</Typography>
               </TableCell>
-              <TableCell>{value?.source?.author}</TableCell>
+              {value?.source?.author ? (
+                <TableCell>{value?.source?.author}</TableCell>
+              ) : (
+                <TableCell>N/A</TableCell>
+              )}
             </TableRow>
             <TableRow>
               <TableCell>
@@ -110,16 +118,18 @@ const BuildWithStepsView = () => {
             <TableRow>
               <TableCell>
                 {/* TODO: be SCM agnostic */}
-                <Typography noWrap>GitHub</Typography>
+                <Typography noWrap>SCM</Typography>
               </TableCell>
-              <TableCell>
-                {value?.source?.url && (
+              {value?.source?.url ? (
+                <TableCell>
                   <Link to={value.source.url}>
                     View on GitHub{' '}
                     <ExternalLinkIcon className={classes.externalLinkIcon} />
                   </Link>
-                )}
-              </TableCell>
+                </TableCell>
+              ) : (
+                <TableCell>N/A</TableCell>
+              )}
             </TableRow>
           </TableBody>
         </Table>

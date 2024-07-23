@@ -57,6 +57,7 @@ import {
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
+
 import {
   EntityJenkinsContent,
   EntityLatestJenkinsRunCard,
@@ -143,7 +144,7 @@ const overviewContent = (
     <EntitySwitch>
       <EntitySwitch.Case if={isJenkinsAvailable}>
         <Grid item md={6}>
-          <EntityLatestJenkinsRunCard branch="test" variant="gridItem" />
+          <EntityLatestJenkinsRunCard branch="" variant="gridItem" />
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>

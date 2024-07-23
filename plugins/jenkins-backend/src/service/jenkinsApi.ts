@@ -113,6 +113,7 @@ export class JenkinsApiImpl {
       // for each branch (we assume)
       projects.push(this.augmentProject(jobDetails));
     }
+
     return projects;
   }
 
@@ -329,25 +330,15 @@ export class JenkinsApiImpl {
   }
 
   async getJobBuilds(jenkinsInfo: JenkinsInfo, jobFullName: string) {
-    let jobName = jobFullName;
-
-    if (jobFullName.includes('/')) {
-      const arr = jobFullName.split('/');
-      const multibranchJobName = arr.shift();
-      jobName = [
-        multibranchJobName,
-        'job',
-        encodeURIComponent(arr.join('/')),
-      ].join('/');
-    }
+    const jobNameURIComplaint =
+      JenkinsApiImpl.generateURICompliantJobName(jobFullName);
 
     const response = await fetch(
       `${
         jenkinsInfo.baseUrl
-      }/job/${jobName}/api/json?tree=${JenkinsApiImpl.jobBuildsTreeSpec.replace(
-        /\s/g,
-        '',
-      )}`,
+      }/${jobNameURIComplaint}/api/json?tree=${JenkinsApiImpl.jobBuildsTreeSpec
+        .replace(/\s/g, '')
+        .replace(/\[\s*\*\]/g, '%5B*%5D')}`,
       {
         method: 'get',
         headers: jenkinsInfo.headers as HeaderInit,
@@ -357,5 +348,24 @@ export class JenkinsApiImpl {
     const jobBuilds = await response.json();
 
     return jobBuilds;
+  }
+
+  private static generateURICompliantJobName(jobFullName: string): string {
+    let jobName = jobFullName;
+
+    if (jobFullName.includes('/')) {
+      const arr = jobFullName.split('/');
+      jobName = '';
+
+      arr.forEach(job => {
+        jobName += `/job/${job}`;
+      });
+
+      jobName = jobName.substring(1, jobName.length);
+    } else {
+      jobName = `/job/${jobName}`;
+    }
+
+    return jobName;
   }
 }

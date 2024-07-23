@@ -33,5 +33,9 @@ export {
   isJenkinsAvailable,
   isJenkinsAvailable as isPluginApplicableToEntity,
 } from './components/Router';
-export { JENKINS_ANNOTATION, LEGACY_JENKINS_ANNOTATION } from './constants';
+export {
+  JENKINS_ANNOTATION,
+  JENKINS_OVERVIEW_MAIN_BRANCH,
+  LEGACY_JENKINS_ANNOTATION,
+} from './constants';
 export * from './api';

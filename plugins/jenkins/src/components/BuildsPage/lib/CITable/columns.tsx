@@ -15,7 +15,6 @@
  */
 import { Link, Progress, TableColumn } from '@backstage/core-components';
 import { alertApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
-import { useEntityPermission } from '@backstage/plugin-catalog-react/alpha';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -27,7 +26,6 @@ import { default as React, useState } from 'react';
 import { Project } from '../../../../api/JenkinsApi';
 import { buildRouteRef, jobRunsRouteRef } from '../../../../plugin';
 import { JenkinsRunStatus } from '../Status';
-import { jenkinsExecutePermission } from '@backstage-community/plugin-jenkins-common';
 
 const FailCount = ({ count }: { count: number }): JSX.Element | null => {
   if (count !== 0) {
@@ -137,7 +135,7 @@ export const columnFactories = Object.freeze({
       render: (row: Partial<Project>) => (
         <>
           <Typography paragraph>
-            <Link to={row.lastBuild?.source?.url ?? ''}>
+            <Link to={row.lastBuild?.url ?? ''}>
               {row.lastBuild?.source?.branchName}
             </Link>
           </Typography>
